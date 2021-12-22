@@ -18,7 +18,7 @@ for i in range(n): # 연결된 컴퓨터를 virus_list에 추가
 for j in range(computer): # dfs를 위한 딕셔너리 생성
     virus[j+1] = virus_list[j]
 
-visited = [False] * computer # 방문노드 작성
+visited = [False] * (computer + 1) # 방문노드 작성
 
 # dfs 구현
 def dfs(virus, v, visited):
