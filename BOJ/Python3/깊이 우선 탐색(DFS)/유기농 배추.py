@@ -3,11 +3,12 @@
 
 
 import sys
+sys.setrecursionlimit(10000)
 
 input = sys.stdin.readline
 
 def dfs(x, y): # dfs 함수 생성
-    if x <= -1 or x >= N or y <= -1 or y >= M:
+    if x <= -1 or x >= N or y <= -1 or y >= M or field[x][y] == 1:
         return False
     
     if field[x][y] == 0:
@@ -29,7 +30,7 @@ T = int(input()) # 테스트 케이스의 개수 입력
 for _ in range(T):
     M, N, K = map(int, input().split()) # 가로, 세로, 배추 위치 입력
 
-    field = [[0]*M for i in range(N)] # 1로 초기화된 배추 텃밭 생성
+    field = [[1]*M for i in range(N)] # 1로 초기화된 배추 텃밭 생성
     for _ in range(K): # 배추가 있는 곳은 0으로 초기회
         y, x = map(int, input().split())
         field[x][y] = 0
