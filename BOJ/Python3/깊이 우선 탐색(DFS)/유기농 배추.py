@@ -11,18 +11,14 @@ def dfs(x, y): # dfs 함수 생성
     if x <= -1 or x >= N or y <= -1 or y >= M or field[x][y] == 1:
         return False
     
-    if field[x][y] == 0:
-        # 현재 노드 방문 처리
-        field[x][y] = 1
-        # 상하좌우 재귀적으로 호출
-        dfs(x-1, y)
-        dfs(x+1, y)
-        dfs(x, y-1)
-        dfs(x, y+1)
-        return True
-    else:
-        return False
-
+    # 현재 노드 방문 처리
+    field[x][y] = 1
+    # 상하좌우 재귀적으로 호출
+    dfs(x-1, y)
+    dfs(x+1, y)
+    dfs(x, y-1)
+    dfs(x, y+1)
+    return True
 
 
 T = int(input()) # 테스트 케이스의 개수 입력
