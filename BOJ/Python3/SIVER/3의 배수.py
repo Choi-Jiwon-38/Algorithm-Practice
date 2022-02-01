@@ -5,6 +5,8 @@ input = sys.stdin.readline
 
 num = input().rstrip()
 cnt = 0
+if len(num) == 1:
+    cnt -= 1
 
 while True:
     new_num = 0

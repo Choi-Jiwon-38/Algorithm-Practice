@@ -12,7 +12,7 @@ prime = [None] * 500000
 prime[0], prime[1] = 2, 3
 ptr = 2
 
-for n in range(5, N, 2): # M까지 수들 중에서 홀수만 탐색
+for n in range(5, N+1, 2): # M까지 수들 중에서 홀수만 탐색
     i = 1
     while prime[i] ** 2 <= n:
         if n % prime[i] == 0:

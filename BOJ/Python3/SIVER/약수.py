@@ -1,5 +1,4 @@
 # 백준 온라인 저지 1037번
-# 
 
 import sys
 input = sys.stdin.readline
