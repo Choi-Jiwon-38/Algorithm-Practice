@@ -28,7 +28,7 @@ int main()
     int cheap = price[0];
     for (int i = 0; i < n - 1; i++)
     {
-        if (price[i] > price[i + 1])
+        if (price[i] > price[i + 1] && cheap > price[i + 1])
         {
             for (int j = subidx; j <= i; j++)
             {
