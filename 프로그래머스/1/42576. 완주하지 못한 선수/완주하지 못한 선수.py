@@ -1,12 +1,18 @@
 def solution(participant, completion):
-    participant.sort()
-    completion.sort()
-
-    total = len(participant)
+    runners = {}
     
-    for i in range(total - 1):
-        if (participant[i] != completion[i]):
-            return participant[i]
+    for p in participant:
+        if p in runners:
+            runners[p] += 1
+        else:
+            runners[p] = 1
+            
+    for c in completion:
+        runners[c] -= 1
+        if runners[c] == 0:
+            del runners[c]
+            
+    return list(runners.keys())[0]
     
-    # 리스트의 마지막 원소에 해당하는 선수가 완주하지 못한 경우 return
-    return participant[total - 1]
+    
+            
