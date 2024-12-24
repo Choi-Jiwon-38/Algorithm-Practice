@@ -1,7 +1,6 @@
-import itertools
-
 def solution(clothes):
     dic = {}
+    answer = 1
     
     for cloth in clothes:
         key = cloth[1]
@@ -11,14 +10,12 @@ def solution(clothes):
         
         dic[key].append(value)
         
-        
-    print(dic)
-        
-    value_list = list(dic.values())
-
+    values = list(dic.values())
     
-    a = itertools.product(*value_list)
-
+    for value in values:
+        answer *= (len(value) + 1)
     
+    # 아무것도 선택하지 않는 경우
+    answer -= 1
 
-    return len(list((a)))
+    return answer
