@@ -1,5 +1,4 @@
 import heapq
-from collections import deque
 
 def solution(jobs):
     disk_q = []
