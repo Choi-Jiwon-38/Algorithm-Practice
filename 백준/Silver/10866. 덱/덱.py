@@ -9,9 +9,9 @@ for _ in range(n):
     cmd = input().rstrip().split(" ")
     
     if cmd[0] == 'push_back':
-        d.append(int(cmd[1]))
+        d.append(cmd[1])
     elif cmd[0] == 'push_front':
-        d.appendleft(int(cmd[1]))
+        d.appendleft(cmd[1])
     elif cmd[0] == 'pop_back':
         print(d.pop() if len(d) else -1)
     elif cmd[0] == 'pop_front':
