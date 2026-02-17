@@ -1,30 +1,28 @@
 import sys
+from collections import deque
 input = sys.stdin.readline
-sys.setrecursionlimit(10**6)
 
-n = int(input().rstrip())
+n = int(input())
+graph = [[] for _ in range(n+1)]
+parents = [None for _ in range(n+1)]
 
-trees = [[] for _ in range(n)]
+for i in range(n-1):
+    s, e = map(int, input().split())
+    graph[s].append(e)
+    graph[e].append(s)
 
-for _ in range(n - 1):
-    node1, node2 = map(int, input().rstrip().split(" "))
-    trees[node1 - 1].append(node2)
-    trees[node2 - 1].append(node1)
+def bfs(graph, v, parents):
+    q = deque([v])
 
-parents = [-1 for _ in range(n)]
-visit = [False for _ in range(n)]
+    while len(q):
+        x = q.popleft()
+        
+        for nx in graph[x]:
+            if parents[nx] is None:
+                parents[nx] = x
+                q.append(nx)
 
-def dfs(curr_node, from_node):
-    if visit[curr_node - 1]: # 이미 방문한 노드인 경우
-        return False
-    
-    visit[curr_node - 1] = True # 방문 처리
-    parents[curr_node - 1] = from_node # 부모 노드 추가
+bfs(graph, 1, parents)
 
-    for node in trees[curr_node - 1]:
-        dfs(node, curr_node)
-
-dfs(1, 1)
-
-for i in range(1, n):
+for i in range(2, n+1):
     print(parents[i])
