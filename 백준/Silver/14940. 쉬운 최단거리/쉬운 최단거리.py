@@ -14,17 +14,13 @@ for i in range(n):
     
     for j in range(m):
         maps[i][j] = r[j]
-        if r[j] == 2: # 그래프 순회 시작 위치
+        if r[j] == 2:
             s = (i, j)
 
 
 dirs = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
 def bfs(y, x):
-    global visited
-    global answer
-    global n
-    global m
     q = deque([(y, x, 0)])
     visited[y][x] = True
     answer[y][x] = 0
@@ -43,7 +39,6 @@ def bfs(y, x):
                     visited[ny][nx] = True
                     q.append((ny, nx, nd))
                     answer[ny][nx] = nd
-
 
 bfs(s[0], s[1])
 
