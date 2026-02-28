@@ -32,6 +32,8 @@ while q:
     for i in range(iter_count):
         y, x = q.popleft()
 
+        next_pos = set()
+
         for dy, dx in dirs:
             ny = y + dy
             nx = x + dx
@@ -52,7 +54,10 @@ while q:
                 print(1)
                 exit()
 
-            q.append((ny, nx))
+            next_pos.add((ny, nx))
+
+        for pos in next_pos:
+            q.append(pos)
 
     # 벽을 한 칸 밀어냄
     maps.pop()
