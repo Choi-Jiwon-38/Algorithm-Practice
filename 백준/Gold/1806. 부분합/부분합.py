@@ -1,35 +1,30 @@
 import sys
 input = sys.stdin.readline
 
-n, s = map(int, input().rstrip().split(" "))
+n, s = map(int, input().split())
+a = list(map(int, input().split()))
+i, j, answer = 0, 0, None
+curr_sum = a[i]
 
-nums = list(map(int, input().rstrip().split(" ")))
+if sum(a) < s:
+    print(0)
+    exit()
 
-i = 0
-j = 0
-
-sum_num = nums[0]
-min_len = n + 1
-
-while True:
-    if sum_num >= s:
-        if j - i + 1 < min_len: # 최소 길이 갱신
-            min_len = j - i + 1
-        
-        if sum_num - nums[i] >= s:
-            sum_num -= nums[i]
-            i += 1
-        else:
-            if j + 1 <= n - 1:
-                j += 1
-                sum_num += nums[j]
-            else:
-                break
+while j < n - 1:
+    while curr_sum < s and j < n - 1:
+        j += 1
+        curr_sum += a[j]
+    
+    if not answer:
+        answer = j - i + 1
     else:
-        if j + 1 <= n - 1:
-            j += 1
-            sum_num += nums[j]
-        else:
-            break
+        answer = min(answer, j - i + 1)
 
-print(0 if min_len == n + 1 else min_len)
+    while curr_sum >= s:
+        curr_sum -= a[i]
+        i += 1
+
+        if curr_sum >= s:
+            answer = min(answer, j - i + 1)
+
+print(answer)
