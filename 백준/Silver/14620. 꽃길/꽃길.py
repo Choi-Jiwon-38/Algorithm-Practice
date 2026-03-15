@@ -50,7 +50,7 @@ def update_enabled_array(y: int, x: int, status: bool, e: list[list[bool]]):
         ny, nx = y + dy, x + dx
         e[ny][nx] = status
 
-def plant(cy: int, cx: int, curr_cost: int, e: list[list[int]], step: int):
+def plant(cy: int, cx: int, curr_cost: int, e: list[list[bool]], step: int):
     global answer
 
     if step == 3:
@@ -58,6 +58,7 @@ def plant(cy: int, cx: int, curr_cost: int, e: list[list[int]], step: int):
         return
 
     for y in range(cy, n):
+        # @todo: x의 시작 범위 제어가 아직 되지 않음. y는 스킵하지만 x는 부분적으로 중복 검사
         for x in range(n):
             if check_can_plant(y, x, e):
                 update_enabled_array(y, x, False, e)
