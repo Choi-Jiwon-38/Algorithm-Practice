@@ -1,15 +1,28 @@
 import sys
-from itertools import permutations
-
 input = sys.stdin.readline
 
-N, M = map(int, input().split())
+n, m = map(int, input().split())
+used = [False for _ in range(n + 1)]
 
-temp = []
+def backtrack(arr: list[int], used: list[bool]):
+    global n, m
+    step = len(arr)
 
-for i in range(N):
-    temp.append(i+1)
+    if step == m:
+        print(*arr)
+        return True
 
-for j in list(permutations(temp, M)):
-    word = str(j)
-    print((word.replace(',', '')[1:]).replace(')', ''))
+    for i in range(1, n + 1):
+        if used[i]:
+            continue
+        arr.append(i)
+        used[i] = True
+        backtrack(arr, used)
+        arr.pop()
+        used[i] = False
+
+
+for i in range(1, n + 1):
+    used[i] = True
+    backtrack([i], used)
+    used[i] = False
