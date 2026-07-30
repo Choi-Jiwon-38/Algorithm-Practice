@@ -1,19 +1,22 @@
 import heapq
 
 def solution(scoville, K):
-    answer = 0
-    hq = scoville
-    heapq.heapify(hq)
+    hq = []
     
-    while hq[0] < K: # 가진 음식의 스코빌 지수가 K보다 작은 경우에는 반복
-        if len(hq) > 1:
-            answer += 1
-            first = heapq.heappop(hq)
-            second = heapq.heappop(hq)
-
-            new = first + second * 2
-            heapq.heappush(hq, new)
-        else:
-            break
-
-    return answer if hq[0] >= K else -1
+    for s in scoville:
+        heapq.heappush(hq, s)
+    
+    flag = True if hq[0] >= K else False
+    count = 0
+    
+    while not flag and len(hq) >= 2:
+        count += 1
+        x1, x2 = heapq.heappop(hq), heapq.heappop(hq)
+        x3 = x1 + x2 * 2
+        
+        heapq.heappush(hq, x3)
+        
+        if hq[0] >= K:
+            flag = True
+        
+    return count if flag else -1
