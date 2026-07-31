@@ -1,22 +1,17 @@
-answer = {}
-
-def dfs(numbers, target, depth = 1):
-    global answer
-    
-    if sum(numbers) == target:
-        answer[''.join(map(str, numbers))] = True
-    
-    if depth == len(numbers):
-        return
-
-    dfs(numbers, target, depth + 1)
-    numbers[depth] *= -1
-    dfs(numbers, target, depth + 1)
-    
-
 def solution(numbers, target):
-    dfs(numbers, target)
-    numbers[0] *= -1
-    dfs(numbers, target)
+    answer = 0
     
-    return len(answer)
+    def dfs(index, total):
+        nonlocal answer
+        
+        if index == len(numbers):
+            if total == target:
+                answer += 1
+            return
+        
+        dfs(index + 1, total + numbers[index])
+        dfs(index + 1, total - numbers[index])
+    
+    dfs(0, 0)
+    
+    return answer
