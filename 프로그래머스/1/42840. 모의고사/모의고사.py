@@ -1,25 +1,23 @@
 def solution(answers):
+    answer = []
+    
+    solution = [
+        [1, 2, 3, 4, 5],
+        [2, 1, 2, 3, 2, 4, 2, 5],
+        [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
+    ]
+    
     score = [0, 0, 0]
-    
-    pattern1 = [1, 2, 3, 4, 5]
-    pattern2 = [2, 1, 2, 3, 2, 4, 2, 5]
-    pattern3 = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
-    
-    len1, len2, len3 = 5, 8, 10
     
     
     for i in range(len(answers)):
-        if answers[i] == pattern1[i % len1]:
-            score[0] += 1
-        
-        if answers[i] == pattern2[i % len2]:
-            score[1] += 1
-        
-        if answers[i] == pattern3[i % len3]:
-            score[2] += 1
-        
+        curr_answer = answers[i]
+        for j in range(3):
+            curr_solution = solution[j]
+            if curr_solution[i % len(curr_solution)] == curr_answer:
+                score[j] += 1
+    
     max_score = max(score)
-    answer = []
     
     for i in range(3):
         if score[i] == max_score:
