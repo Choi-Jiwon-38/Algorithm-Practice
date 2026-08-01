@@ -1,34 +1,46 @@
-
-
-def backtrack(nums, num_str, visited, prime_arr, answer_set, depth = 0):
-    if prime_arr[int(num_str)]:
-        answer_set.add(int(num_str))
-  
-    if depth == len(nums) - 1:
-        return
-    
-    for i in range(len(nums)):
-        if not visited[i]:
-            visited[i] = True
-            backtrack(nums, num_str + nums[i], visited, prime_arr, answer_set, depth + 1)
-            visited[i] = False 
-
-
 def solution(numbers):
-    max_num = int(''.join(sorted(list(numbers), reverse=True)))
-    prime_arr = [False, False] + [True] * (max_num - 1)
+    answer = 0
+    num_list = list(numbers)
+    can_use = [True for _ in range(len(numbers))]
+    
+    all_num = set()
+    
+    
+    def make_all_num(str_num, can_use, max_size):
+        if len(str_num):
+            all_num.add(int(str_num))
+        
+        if len(str_num) == max_size:
+            return
+        
+        for i in range(len(can_use)):
+            if can_use[i] == True:
+                can_use[i] = False
+                make_all_num(str_num + num_list[i], can_use, max_size)
+                can_use[i] = True
+    
+    make_all_num('', can_use, len(numbers))
+    max_num = max(all_num)
+    
+    print(max_num)
+    
+    isPrime = [True for _ in range(max_num + 1)]
+
+    # base case
+    isPrime[0] = isPrime[1] = False
     
     for i in range(2, max_num + 1):
-        if prime_arr[i]:          
-            for j in range(i * 2, max_num + 1, i):
-                prime_arr[j] = False
+        if not isPrime[i]:
+            continue
+        
+        for j in range(2, max_num // 2 + 1):
+            if i * j <= max_num:
+                isPrime[i * j] = False
+            else:
+                break
     
-    answer_set = set()
-    visited = [False] * len(numbers)
+    for n in all_num:
+        if isPrime[n]:
+            answer += 1
     
-    for i in range(len(numbers)):
-        visited[i] = True
-        backtrack(numbers, numbers[i], visited, prime_arr, answer_set)
-        visited[i] = False
-    
-    return len(answer_set)
+    return answer
