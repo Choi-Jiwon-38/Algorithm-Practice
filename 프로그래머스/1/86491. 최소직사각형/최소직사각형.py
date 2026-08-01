@@ -1,19 +1,18 @@
 def solution(sizes):
-    max_w = 0
-    max_h = 0
+    wallet_x = sizes[0][0]
+    wallet_y = sizes[0][1]
     
-    for size in sizes:
-        # 명함 회전 X
-        max_w1 = max(max_w, size[0])
-        max_h1 = max(max_h, size[1])
+    for i in range(1, len(sizes)):
+        x, y = sizes[i]
         
-        # 명함 회전 O
-        max_w2 = max(max_w, size[1])
-        max_h2 = max(max_h, size[0])
+        if (x <= wallet_x and y <= wallet_y) or (y <= wallet_x and x <= wallet_y):
+            continue
         
-        if max_w2 * max_h2 > max_w1 * max_h1:
-            max_w, max_h = max_w1, max_h1
+        if max(x, wallet_x) * max(y, wallet_y) < max(y, wallet_x) * max(x, wallet_y):
+            wallet_x = max(x, wallet_x)
+            wallet_y = max(y, wallet_y)
         else:
-            max_w, max_h = max_w2, max_h2
-        
-    return max_w * max_h
+            wallet_x = max(y, wallet_x)
+            wallet_y = max(x, wallet_y)
+    
+    return wallet_x * wallet_y
