@@ -1,31 +1,38 @@
 def solution(want, number, discount):
-    wantDic = {}
+    want_dict = dict()
+    answer = 0
     
     for i in range(len(want)):
-        wantDic[want[i]] = i
+        want_dict[want[i]] = number[i]
     
-    currNum = [0 for i in range(len(want))]
-    
+    start_idx = 0
+    end_idx = 9
+
     for i in range(10):
-        if discount[i] in wantDic:
-            currNum[wantDic[discount[i]]] += 1
-    
-    left = 0
-    right = 9
-    
-    answer = 1 if number == currNum else 0
-    
-    while (right != len(discount) - 1):
+        if discount[i] in want_dict:
+            want_dict[discount[i]] -= 1
 
-        if discount[left] in wantDic:
-            currNum[wantDic[discount[left]]] -= 1
-        left += 1
-        right += 1
+    
+    def check_all_sale():
+        is_all_sale = True
         
-        if discount[right] in wantDic:
-            currNum[wantDic[discount[right]]] += 1
+        for v in want_dict.values():            
+            if v > 0:
+                is_all_sale = False
+                break
+        
+        return is_all_sale
     
-        if number == currNum:
-            answer += 1
+    if check_all_sale():
+        answer += 1
 
+        
+    while end_idx < len(discount) - 1: 
+        if discount[start_idx] in want_dict: want_dict[discount[start_idx]] += 1
+        start_idx += 1
+        end_idx += 1
+        if discount[end_idx] in want_dict: want_dict[discount[end_idx]] -= 1
+        
+        if check_all_sale(): answer += 1
+    
     return answer
