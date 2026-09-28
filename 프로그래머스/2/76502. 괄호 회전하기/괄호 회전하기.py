@@ -1,36 +1,41 @@
 from collections import deque
 
-dic = {
-    "]": "[",
-    ")": "(",
-    "}": "{",
-    "[": None,
-    "(": None,
-    "{": None,
+match = {
+    ']': '[',
+    ')': '(',
+    '}': '{',
+    '[': None,
+    '(': None,
+    '{': None
 }
 
 
-def check(string):
+def check(s):
     stack = []
     
-    for char in string:
-        if len(stack) > 0 and stack[-1] == dic[char]:
+    for c in s:
+        if len(stack) and stack[-1] == match[c]:
             stack.pop()
         else:
-            stack.append(char)
+            stack.append(c)
     
-    return len(stack) == 0
-
+    return False if len(stack) else True
+    
+    
 
 def solution(s):
+    s = deque(s)
     answer = 0
     
+    if check(s):
+        answer += 1
+    
+    
     for i in range(len(s) - 1):
-        s = deque(list(s))
+        s.rotate(-1)
         if check(s):
             answer += 1
-        s.rotate(-1)
-        
-        
+    
+    
+    
     return answer
-
