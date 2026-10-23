@@ -1,23 +1,31 @@
 function solution(priorities, location) {
-    const stack = [...priorities].sort();
-    const p = priorities.map((x, i) => [x, i]);
-    let count = 0
+    const p_stack = [...priorities].sort();
+    max_p = p_stack[p_stack.length - 1]; 
     
-    while (true) {
-        count++;
+    let count = 0;
+    
+    queue_head = 0;
+    queue = [];
+    
+    for (let i in priorities) {
+        queue.push([Number(i), priorities[i]]);
+    }
+    
+    while (queue_head < queue.length) {
+        task = queue[queue_head];
+        queue_head++;
         
-        while (stack[stack.length - 1] > p[0][0]) {
-            const tmp = p[0]
-            p.shift();
-            p.push(tmp);
-        }
-    
-        const tmp = p[0]
-        p.shift();
-        stack.pop();
-    
-        if (location == tmp[1]) {
-            return count;
+        if (task[1] < max_p) {
+            queue.push(task);
+        } else {
+            p_stack.pop();
+            max_p = p_stack[p_stack.length - 1];
+            count++;
+            if (task[0] === location) {
+                break;
+            }
         }
     }
+    
+    return count;
 }
