@@ -1,5 +1,4 @@
 function solution(maps) {
-    let answer = 10000000;
     const n = maps.length;
     const m = maps[0].length;
     let flag = false;
@@ -31,15 +30,11 @@ function solution(maps) {
                 
                 
                 if (ny == n - 1 && nx == m - 1) {
-                    flag = true;
-                    answer = Math.min(answer, cc + 1);
+                    return cc + 1;
                 }
             }
         }
     }
     
-    if (flag) {
-        return answer;
-    }
     return -1;
 }
