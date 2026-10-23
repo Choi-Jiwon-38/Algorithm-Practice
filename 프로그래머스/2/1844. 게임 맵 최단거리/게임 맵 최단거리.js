@@ -1,32 +1,45 @@
 function solution(maps) {
+    let answer = 10000000;
     const n = maps.length;
     const m = maps[0].length;
-    const visited = Array.from({ length: n }, () => Array(m).fill(false));
-    const q = [[0, 0, 1]];
+    let flag = false;
+    
+    const queue = [[0, 0, 1]];
     let head = 0;
-    const dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]];
     
-    visited[0][0] = true;
+    const dirs = [
+        [1, 0],
+        [-1, 0],
+        [0, 1],
+        [0, -1]
+    ];
     
-    while (head < q.length) {
-        const [cy, cx, step] = q[head];
+    maps[0][0] = -2;
+    
+    while (queue.length > head) {
+        const [cy, cx, cc] = queue[head];
         head++;
         
-        if (cy == n - 1 && cx == m - 1) {
-            return step;
-        }
-        
-        for (const dir of dirs) {
-            const [dy, dx] = dir;
-            const ny = cy + dy;
-            const nx = cx + dx;
+        for ([dy, dx] of dirs) {
+            ny = cy + dy;
+            nx = cx + dx;
+            nc = cc + 1;
             
-            if (ny >= 0 && ny < n && nx >= 0 && nx < m && !visited[ny][nx] && maps[ny][nx] !== 0) {
-                visited[ny][nx] = true;
-                q.push([ny, nx, step + 1])
+            if (ny >= 0 && nx >= 0 && ny < n && nx < m && maps[ny][nx] == 1) {
+                maps[ny][nx] = -2;
+                queue.push([ny, nx, nc]);
+                
+                
+                if (ny == n - 1 && nx == m - 1) {
+                    flag = true;
+                    answer = Math.min(answer, cc + 1);
+                }
             }
         }
     }
     
+    if (flag) {
+        return answer;
+    }
     return -1;
 }
