@@ -1,26 +1,34 @@
 from collections import deque
 
+dirs = [
+    (1, 0),
+    (-1, 0),
+    (0, 1),
+    (0, -1),
+]
+
 def solution(maps):
+    answer = -1
+    q = deque([(0, 0, 1)])
     n = len(maps)
     m = len(maps[0])
     
-    dq = deque([(0, 0, 1)])
-    dirs = [(1, 0), (-1, 0), (0, 1), (0, -1)]
-    visited = [[False for _ in range(m)] for _ in range(n)]
-    visited[0][0] = True
+    maps[0][0] = -1
     
-    while dq:
-        cy, cx, step = dq.popleft()
+    while len(q):
+        cy, cx, cc = q.popleft()
         
         if cy == n - 1 and cx == m - 1:
-            return step
+            answer = cc
+            break
         
         for dy, dx in dirs:
             ny = cy + dy
             nx = cx + dx
+            nc = cc + 1
+            
+            if 0 <= ny and ny < n and 0 <= nx and nx < m and maps[ny][nx] == 1:
+                maps[ny][nx] = -1
+                q.append((ny, nx, nc))
     
-            if 0 <= ny and ny < n and 0 <= nx and nx < m and maps[ny][nx] == 1 and not visited[ny][nx]:
-                dq.append((ny, nx, step + 1))
-                visited[ny][nx] = True
-    
-    return -1
+    return answer
