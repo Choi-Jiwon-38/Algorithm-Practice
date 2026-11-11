@@ -1,40 +1,46 @@
-def solution(n, wires):
-    answer = 100
+from collections import deque
+
+answer = 100
+
+def travel(n, graph, visited):    
+    global answer
+    dq = deque([0])
+    visited[0] = True
     
-    graph = [[] for _ in range(n)]
-    
-    for s, e in wires:
-        graph[s-1].append(e-1)
-        graph[e-1].append(s-1)
-    
-    def count_connected_node(node, visited):
-        count = 1
-        visited[node] = True
+    while dq:
+        node = dq.popleft()
         
         for next_node in graph[node]:
-            
             if not visited[next_node]:
-                count += count_connected_node(next_node, visited)
-        
-        return count
+                visited[next_node] = True
+                dq.append(next_node)
     
-    for s, e in wires:
-        graph[s-1].remove(e-1)
-        graph[e-1].remove(s-1)
-        visited = [False] * n
+    count1 = visited.count(True)
+    count2 = n - count1
+
+    answer = min(answer, abs(count1 - count2)) 
     
-        count1 = count_connected_node(0, visited)
-        count2 = None
-        
-        for i in range(1, n):
-            if not visited[i]:
-                count2 = count_connected_node(i, visited)
-                break
-        
-        diff = count1 - count2 if count1 > count2 else count2 - count1    
-        answer = min(diff, answer)
-        graph[s-1].append(e-1)
-        graph[e-1].append(s-1)
     
+
+def make_graph(wires, index, n):
+    graph = [[] for _ in range(n)] 
+    
+    for i in range(len(wires)):
+        if i == index:
+            continue
+        
+        node1, node2 = wires[i]
+    
+        graph[node1 - 1].append(node2 - 1)
+        graph[node2 - 1].append(node1 - 1)
+    
+    return graph
+        
+
+def solution(n, wires):
+    for i in range(len(wires)):
+        visited = [False for _ in range(n)]
+        graph = make_graph(wires, i, n)
+        travel(n, graph, visited)
     
     return answer
