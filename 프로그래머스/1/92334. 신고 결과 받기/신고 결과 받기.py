@@ -1,23 +1,27 @@
 def solution(id_list, report, k):
     answer = []
-    reports = dict()
-    mail = dict()
+    report_dict = dict()
+    id_dict = dict()
     
     for id in id_list:
-        reports[id] = []
-        mail[id] = 0
-    
-    for text in report:
-        u1, u2 = text.split(" ")
-        if not u1 in reports[u2]:
-            reports[u2].append(u1)
-    
-    for key in reports.keys():
-        if len(reports[key]) >= k:
-            for reporter_key in reports[key]:
-                mail[reporter_key] += 1        
+        report_dict[id] = set()
+        id_dict[id] = set()
         
+    # dict 초기화
+    for r in report:
+        user_id, reported_id = r.split(" ")
+        report_dict[reported_id].add(user_id)
+        id_dict[user_id].add(reported_id)
+        
+            
     for id in id_list:
-        answer.append(mail[id])
+        count = 0
         
-    return answer 
+        for i in id_dict[id]:
+            if len(report_dict[i]) >= k:
+                count += 1
+        
+        answer.append(count)
+    
+    
+    return answer
