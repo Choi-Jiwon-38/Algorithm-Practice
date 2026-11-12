@@ -1,35 +1,27 @@
 from collections import deque
 
 def solution(bridge_length, weight, truck_weights):
+    time = 1
     bridge = deque([])
-    trucks = deque(truck_weights)
+    trucks = deque(truck_weights)    
     rest = weight
-    time = 0
     
-    while (trucks):
-        time += 1
-
+    while trucks:
+        # 다리 다 건넌 경우에는 내림
+        if bridge and bridge[0][1] <= time:
+            rest += bridge[0][0]
+            bridge.popleft()
         
-        while bridge and bridge[0][1] <= time:
-            passed_weight, _ = bridge.popleft()
-            rest += passed_weight
-        
-    
         if rest >= trucks[0]:
-            truck = trucks.popleft()
-            bridge.append([truck, time + bridge_length])
-            rest -= truck
-        else:
-            passed_weight, a_time = bridge.popleft()
-            time = a_time
-            rest += passed_weight
+            bridge.append([trucks[0], time + bridge_length])
+            rest -= trucks[0]
+            trucks.popleft()
+            time += 1
 
-            if rest >= trucks[0]:
-                truck = trucks.popleft()
-                bridge.append([truck, time + bridge_length])
-                rest -= truck
-                
+        elif bridge:
+            time = bridge[0][1]
+            
     if bridge:
         return bridge[-1][1]
-        
+
     return time
