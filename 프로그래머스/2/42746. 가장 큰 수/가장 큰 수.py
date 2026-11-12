@@ -1,13 +1,23 @@
+# cmp_to_key 사용 방법 익히기
 from functools import cmp_to_key
 
-def compare(n1, n2):
-    return int(str(n1) + str(n2)) - int(str(n2) + str(n1))
+def compare(x1, x2):
+    n1 = x1 + x2
+    n2 = x2 + x1
+    
+    if n1 > n2:
+        return -1
+    else:
+        return 1
 
 def solution(numbers):
-    numbers.sort(key=cmp_to_key(compare))
-    answer = ''
+    str_nums = [str(num) for num in numbers]
+    str_nums.sort(key=cmp_to_key(compare))
+
+    answer = ''.join(str_nums)
     
-    for n in numbers:
-        answer = str(n) + answer
+    # [0, 0] 이런 식으로 들어왔을 때, 처리
+    if answer[:2] == '00':
+        answer = '0'
     
-    return '0' if answer[0] == '0' else answer
+    return answer
