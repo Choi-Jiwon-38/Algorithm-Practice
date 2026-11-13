@@ -1,8 +1,7 @@
 def solution(brown, yellow):
-    # x * y = brown + yellow
-    # 2 * x + 2 * y - 4 = brown
+    for y in range(5000):
+        for x in range(y, 5000):
+            if 2 * y + 2 * x + 4 == brown and x * y  == yellow:
+                return [x + 2, y + 2]
 
-    for x in range(3, 2000):
-        for y in range(1, x + 1):
-            if x * y == brown + yellow and 2 * x + 2 * y - 4 == brown:
-                return [x, y]
+    return answer
