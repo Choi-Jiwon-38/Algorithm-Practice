@@ -1,46 +1,47 @@
-def solution(numbers):
-    answer = 0
-    num_list = list(numbers)
-    can_use = [True for _ in range(len(numbers))]
-    
-    all_num = set()
-    
-    
-    def make_all_num(str_num, can_use, max_size):
-        if len(str_num):
-            all_num.add(int(str_num))
+def make_nums(n, curr, str_nums, used, num_set, step = 0):
+    if step == n:
+        return
         
-        if len(str_num) == max_size:
-            return
-        
-        for i in range(len(can_use)):
-            if can_use[i] == True:
-                can_use[i] = False
-                make_all_num(str_num + num_list[i], can_use, max_size)
-                can_use[i] = True
+    for i in range(n):
+        if not used[i]:
+            used[i] = True
+            make_nums(n, curr + str_nums[i], str_nums, used, num_set, step + 1)
+            num_set.add(int(curr + str_nums[i]))
+            used[i] = False
+            
+def prime_counter(nums):
+    max_num = max(nums)
+    is_prime = [True for _ in range(max_num + 1)]
+    is_prime[0] = False
+    is_prime[1] = False
     
-    make_all_num('', can_use, len(numbers))
-    max_num = max(all_num)
-    
-    print(max_num)
-    
-    isPrime = [True for _ in range(max_num + 1)]
-
-    # base case
-    isPrime[0] = isPrime[1] = False
-    
-    for i in range(2, max_num + 1):
-        if not isPrime[i]:
+    for num in range(2, int(max_num ** 0.5)):
+        if not is_prime[num]:
             continue
+    
+        is_prime[num] = True
         
-        for j in range(2, max_num // 2 + 1):
-            if i * j <= max_num:
-                isPrime[i * j] = False
-            else:
-                break
+        for remove in range(num * 2, max_num + 1, num):
+            is_prime[remove] = False
     
-    for n in all_num:
-        if isPrime[n]:
-            answer += 1
+    count = 0
     
+    for num in nums:
+        if is_prime[num]:
+            count += 1
+    
+    return count 
+    
+            
+def solution(numbers):
+    n = len(numbers)
+    
+    str_nums = list(numbers)
+    used = [False for _ in range(n)]
+    num_set = set()
+    
+    make_nums(n, '', str_nums, used, num_set)
+
+    answer = prime_counter(num_set)
+
     return answer
