@@ -1,26 +1,29 @@
+
+
 def solution(answers):
-    answer = []
+    s1 = [1, 2, 3, 4, 5]
+    s2 = [2, 1, 2, 3, 2, 4, 2, 5]
+    s3 = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
     
-    solution = [
-        [1, 2, 3, 4, 5],
-        [2, 1, 2, 3, 2, 4, 2, 5],
-        [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
-    ]
-    
-    score = [0, 0, 0]
-    
+    results = []
+    scores = [0, 0, 0]
     
     for i in range(len(answers)):
-        curr_answer = answers[i]
-        for j in range(3):
-            curr_solution = solution[j]
-            if curr_solution[i % len(curr_solution)] == curr_answer:
-                score[j] += 1
+        answer = answers[i]
+        
+        if s1[i % len(s1)] == answer:
+            scores[0] += 1
+        
+        if s2[i % len(s2)] == answer:
+            scores[1] += 1
+            
+        if s3[i % len(s3)] == answer:
+            scores[2] += 1
     
-    max_score = max(score)
+    max_score = max(scores)    
     
     for i in range(3):
-        if score[i] == max_score:
-            answer.append(i + 1)
+        if scores[i] == max_score:
+            results.append(i + 1)
     
-    return answer
+    return results
