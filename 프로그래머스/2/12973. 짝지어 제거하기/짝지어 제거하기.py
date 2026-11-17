@@ -1,15 +1,13 @@
-from collections import deque
-
 def solution(s):
-    q = deque()
+    stack = []
     
     for c in s:
-        if len(q) == 0:
-            q.append(c)
+        if not stack:
+            stack.append(c)
         else:
-            if q[-1] == c:
-                q.pop()
+            if stack[-1] == c:
+                stack.pop()
             else:
-                q.append(c)
-            
-    return 1 if len(q) == 0 else 0
+                stack.append(c)
+
+    return 0 if stack else 1
