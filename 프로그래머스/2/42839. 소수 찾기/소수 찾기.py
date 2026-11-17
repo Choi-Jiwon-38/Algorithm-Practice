@@ -1,47 +1,40 @@
-def make_nums(n, curr, str_nums, used, num_set, step = 0):
-    if step == n:
-        return
-        
-    for i in range(n):
-        if not used[i]:
-            used[i] = True
-            make_nums(n, curr + str_nums[i], str_nums, used, num_set, step + 1)
-            num_set.add(int(curr + str_nums[i]))
-            used[i] = False
-            
-def prime_counter(nums):
-    max_num = max(nums)
-    is_prime = [True for _ in range(max_num + 1)]
+def count_prime_number(n, number_set):
+    is_prime = [True for _ in range(n + 1)]
+    
     is_prime[0] = False
     is_prime[1] = False
     
-    for num in range(2, int(max_num ** 0.5)):
-        if not is_prime[num]:
-            continue
-    
-        is_prime[num] = True
-        
-        for remove in range(num * 2, max_num + 1, num):
-            is_prime[remove] = False
+    for i in range(2, int(n ** 0.5)):
+        for j in range(i * 2, n + 1, i):
+            is_prime[j] = False
     
     count = 0
     
-    for num in nums:
-        if is_prime[num]:
+    for number in number_set:
+        if is_prime[number]:
             count += 1
     
-    return count 
+    return count
     
-            
-def solution(numbers):
+
+def make_numbers(n, curr, number_set, numbers, used):
+    for i in range(n):
+        if not used[i]:
+            used[i] = True
+            number_set.add(int(curr + numbers[i]))
+            make_numbers(n, curr + numbers[i], number_set, numbers, used)
+            used[i] = False
+
+def solution(numbers):    
+    number_set = set()
     n = len(numbers)
-    
-    str_nums = list(numbers)
     used = [False for _ in range(n)]
-    num_set = set()
     
-    make_nums(n, '', str_nums, used, num_set)
-
-    answer = prime_counter(num_set)
-
+    make_numbers(n, '', number_set, numbers, used)
+    
+    max_number = max(number_set)
+    
+    answer = count_prime_number(max_number, number_set)
+    
+    
     return answer
