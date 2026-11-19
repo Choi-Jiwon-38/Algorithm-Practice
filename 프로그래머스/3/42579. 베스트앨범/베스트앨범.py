@@ -1,24 +1,24 @@
 def solution(genres, plays):
-    # classic: [0, []]
-    # pop: [0, []]
-    music = {}
+    n = len(genres)
+    answer = []
     
-    for i in range(len(genres)):
-        if genres[i] in music:
-            music[genres[i]][0] += plays[i]
-            music[genres[i]][1].append([plays[i], i])
+    genre_dict = dict()
+
+    for i in range(n):
+        if genres[i] in genre_dict:
+            genre_dict[genres[i]].append([plays[i], i])
         else:
-            music[genres[i]] = [plays[i], [[plays[i], i]]]
+            genre_dict[genres[i]] = [[plays[i], i]]
         
-    print(music)
+    genre_key = list(genre_dict.keys())
+    genre_key.sort(key=lambda x: -sum(y[0] for y in genre_dict[x]))
     
-    sorted_genres = sorted(music.items(), key = lambda x: x[1][0], reverse=True)
+    print(genre_key)
     
-    result = []
+    for key in genre_key:
+        genre_dict[key].sort(key=lambda x: (-x[0], x[1]))
+        
+        for i in range(min(2, len(genre_dict[key]))):
+            answer.append(genre_dict[key][i][1])
     
-    for genre, (total_plays, songs) in sorted_genres:
-        sorted_songs = sorted(songs, key=lambda x: (-x[0], x[1]))
-        result.extend([song[1] for song in sorted_songs[:2]])
-    
-    return result
-    
+    return answer
