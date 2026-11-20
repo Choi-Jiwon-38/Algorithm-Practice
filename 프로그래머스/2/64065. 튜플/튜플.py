@@ -1,31 +1,27 @@
 def solution(s):
-    tmp1 = list(s[1:-2].split('},'))
-    
-    tuples = []
-    for tmp in tmp1:
-        tuples.append(sorted(list(map(int, tmp[1:].split(",")))))
-    
-    tuples.sort(key=lambda x: len(x))
-    
     answer = []
     
-    count_dict = dict()
-    count_dict[0] = []
+    s = s[2:-2]
+    group = s.split("},{")
     
-    for i in range(len(tuples)):
-        if i == 0:
-            answer.append(tuples[i][0])
-            continue
-        
+    nums = [sorted(list(map(int, g.split(",")))) for g in group]
+    nums.sort(key=lambda x: len(x))
+    
+    # base case
+    answer.append(nums[0][0])
+    
+    # recursive case
+    for i in range(1, len(nums)):
         flag = False
         
-        for j in range(len(tuples[i - 1])):
-            if tuples[i][j] != tuples[i - 1][j]:
+        for j in range(len(nums[i - 1])):
+            if nums[i][j] != nums[i - 1][j]:
+                answer.append(nums[i][j])
                 flag = True
-                answer.append(tuples[i][j])
                 break
         
         if not flag:
-            answer.append(tuples[i][-1])
+            answer.append(nums[i][-1])
     
+
     return answer
