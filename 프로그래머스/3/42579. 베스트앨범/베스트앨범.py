@@ -1,24 +1,25 @@
 def solution(genres, plays):
-    n = len(genres)
+    musics = dict()
+    n = len(plays)
     answer = []
     
-    genre_dict = dict()
-
     for i in range(n):
-        if genres[i] in genre_dict:
-            genre_dict[genres[i]].append([plays[i], i])
+        genre = genres[i]
+        play = plays[i]
+        
+        if genre in musics:
+            musics[genre].append([play, i])
         else:
-            genre_dict[genres[i]] = [[plays[i], i]]
+            musics[genre] = [[play, i]]
         
-    genre_key = list(genre_dict.keys())
-    genre_key.sort(key=lambda x: -sum(y[0] for y in genre_dict[x]))
+    keys = list(musics.keys())
     
-    print(genre_key)
-    
-    for key in genre_key:
-        genre_dict[key].sort(key=lambda x: (-x[0], x[1]))
+    keys.sort(key=lambda x: -sum(y[0] for y in musics[x])) 
+
+    for key in keys:
+        musics[key].sort(key=lambda x: (-x[0], x[1]))
         
-        for i in range(min(2, len(genre_dict[key]))):
-            answer.append(genre_dict[key][i][1])
+        for i in range(min(2, len(musics[key]))):
+            answer.append(musics[key][i][1])
     
     return answer
