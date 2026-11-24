@@ -1,26 +1,34 @@
 import heapq
+from collections import deque
 
 def solution(jobs):
-    disk_q = []
-    time = 0
-    index = 0
-    answer = 0
-    jobs.sort() # 작업 요청 시간이 빠른 순으로 정렬
+    jobs.sort()
+    jobs = deque(jobs)
+    answers = []
+    n = len(jobs)
+    hq = []
     
-    while index < len(jobs) or disk_q:
+    time = 0
+    idx = 0
+    
+    while len(answers) < n:
+        # time 기준으로 힙에 넣을 수 있는 항목 넣기
+        while jobs and time >= jobs[0][0]:
+            job = jobs.popleft()
+            heapq.heappush(hq, (job[1], job[0], idx))
+            idx += 1
         
-        while index < len(jobs) and jobs[index][0] <= time:
-            # 소요 시간이 짧은 것 -> 요청 시각이 빠른 것 -> 작업의 번호가 작은 것
-            heapq.heappush(disk_q, (jobs[index][1], jobs[index][0], index))
-            index += 1
+        # 지금 힙에서 뺄 수 있는 거 빼기
+        if hq:
+            ut, rt, _ = heapq.heappop(hq)
         
-        if disk_q:
-            disk = heapq.heappop(disk_q)
-            time += disk[0]
-            answer += time - disk[1]     
+            time += ut
+            rtt = time - rt
             
-        else: # 프로세스 큐가 비어있는 경우
-            time += 1
+            answers.append(rtt)
+        
+        
+        if not hq and jobs and time < jobs[0][0]:
+            time = jobs[0][0]
 
-    return answer // len(jobs)
-            
+    return sum(answers) // len(answers)
