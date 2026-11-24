@@ -1,30 +1,29 @@
 def solution(s):
     answer = len(s)
-    
-    for unit in range(1, len(s) // 2 + 1):
-        new_s = ''
-        curr_base = ''
+    n = len(s)
+  
+    for unit in range(1, n // 2 + 1):
+        curr = ''
         count = 0
+        new_s = ''
         
-        for i in range(0, len(s) + 1, unit):         
-            if curr_base == s[i:min(i + unit, len(s))]:
-                count += 1
-            else:
-                if count <= 1:
-                    new_s += curr_base
-                else:
+        for i in range(0, n + 1, unit):
+            if curr != s[i:min(n, i + unit)]:
+                if count > 1:
                     new_s += str(count)
-                    new_s += curr_base
-                
-                
-                curr_base = s[i:min(i + unit, len(s))]
+                    new_s += curr
+                else:
+                    new_s += curr
+            
+                curr = s[i:min(n, i + unit)]
                 count = 1
                 
-                # 이 부분이 누락되는 건 보이는데, 위 조건식을 조정해서 해결할 방법은 없는지..?
-                if i + unit > len(s):
-                    new_s += curr_base
-                
+                if i + unit > n:
+                    new_s += curr
+            else:
+                count += 1
         
-        answer = min(answer, len(new_s))
+        answer = min(len(new_s), answer)
+    
     
     return answer
